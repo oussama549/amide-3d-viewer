@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Amide Structure — 17 Atoms</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.2/3Dmol-min.js">
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #060a14;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #viewer {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+
+        /* Small label at the bottom — just for you */
+        .note {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #445566;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            background: rgba(6, 10, 20, 0.6);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Small instructions — visible to audience */
+        .instructions {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #334466;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="viewer"></div>
+
+    <!-- Bottom info — clean and minimal -->
+    <div class="instructions">🖱️ Drag to rotate · Scroll to zoom</div>
+    <div class="note">🧬 Amide Structure · 17 Atoms</div>
+
+    <script>
+        // ============================================================
+        // CREATE VIEWER
+        // ============================================================
+        const viewer = $3Dmol.createViewer('viewer', {
+            backgroundColor: '0x060a14',
+            control: 'orbit'
+        });
+
+        // ============================================================
+        // MOLECULE DATA (SMILES format)
+        // This is a realistic amide — similar to paracetamol
+        // ============================================================
+        const smiles = "COC(=O)Nc1ccc(cc1)O";
+
+        // ============================================================
+        // ADD MOLECULE
+        // ============================================================
+        viewer.addModel(smiles, "smiles");
+
+        // ============================================================
+        // STYLE — ALL ATOMS AND BONDS
+        // ============================================================
+        viewer.setStyle({}, {
+            stick: {
+                color: '#8899bb',
+                radius: 0.1
+            },
+            sphere: {
+                scale: 0.35,
+                color: '#00ff88'
+            }
+        });
+
+        // ============================================================
+        // COLOR ATOMS BY TYPE (C, O, N, H)
+        // ============================================================
+        // Carbon — green
+        viewer.addStyle({
+            elem: 'C'
+        }, {
+            sphere: {
+                color: '#00ff88',
+                scale: 0.35
+            }
+        });
+
+        // Oxygen — red
+        viewer.addStyle({
+            elem: 'O'
+        }, {
+            sphere: {
+                color: '#ff6b6b',
+                scale: 0.4
+            }
+        });
+
+        // Nitrogen — blue
+        viewer.addStyle({
+            elem: 'N'
+        }, {
+            sphere: {
+                color: '#00ccff',
+                scale: 0.4
+            }
+        });
+
+        // Hydrogen — white/gray
+        viewer.addStyle({
+            elem: 'H'
+        }, {
+            sphere: {
+                color: '#ffffff',
+                scale: 0.2
+            }
+        });
+
+        // ============================================================
+        // HIGHLIGHT THE AMIDE BOND (C-N bond)
+        // ============================================================
+        // The amide bond is between the carbonyl carbon and the nitrogen
+        // We'll highlight it by making it thicker and red
+        viewer.addStyle({
+            bond: {
+                elem: ['C', 'N'],
+                bondOrder: 1
+            }
+        }, {
+            stick: {
+                color: '#ff6b6b',
+                radius: 0.2
+            }
+        });
+
+        // ============================================================
+        // ADD LABELS TO ATOMS (C, O, N, H)
+        // ============================================================
+        // Labels for carbon atoms
+        viewer.addLabel('C', {
+            position: {
+                x: 2.0,
+                y: 1.5,
+                z: 0.5
+            },
+            fontSize: 14,
+            color: '#00ff88',
+            font: 'Arial',
+            backgroundColor: 'rgba(0,0,0,0.0)'
+        });
+
+        viewer.addLabel('N', {
+            position: {
+                x: 1.2,
+                y: -1.5,
+                z: 0.5
+            },
+            fontSize: 14,
+            color: '#00ccff',
+            font: 'Arial',
+            backgroundColor: 'rgba(0,0,0,0.0)'
+        });
+
+        viewer.addLabel('O', {
+            position: {
+                x: 3.0,
+                y: 2.0,
+                z: 0.5
+            },
+            fontSize: 14,
+            color: '#ff6b6b',
+            font: 'Arial',
+            backgroundColor: 'rgba(0,0,0,0.0)'
+        });
+
+        viewer.addLabel('H', {
+            position: {
+                x: 0.8,
+                y: -2.5,
+                z: 0.5
+            },
+            fontSize: 12,
+            color: '#ffffff',
+            font: 'Arial',
+            backgroundColor: 'rgba(0,0,0,0.0)'
+        });
+
+        // ============================================================
+        // ADD A BOND LABEL FOR THE AMIDE BOND
+        // ============================================================
+        viewer.addLabel('Amide Bond', {
+            position: {
+                x: 1.8,
+                y: -0.5,
+                z: 0.8
+            },
+            fontSize: 16,
+            color: '#ff6b6b',
+            font: 'Arial',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            backgroundOpacity: 0.5,
+            border: '1px solid rgba(255,107,107,0.3)',
+            borderRadius: '8px',
+            padding: '4px 10px'
+        });
+
+        // ============================================================
+        // ZOOM AND RENDER
+        // ============================================================
+        viewer.zoomTo();
+        viewer.rotate(90, 0);
+        viewer.render();
+
+        // ============================================================
+        // AUTO-ROTATE (optional — uncomment to enable)
+        // ============================================================
+        // viewer.spin(true);
+
+        // ============================================================
+        // RESIZE HANDLER
+        // ============================================================
+        window.addEventListener('resize', function() {
+            viewer.resize();
+        });
+    </script>
+
+</body>
+</html>
