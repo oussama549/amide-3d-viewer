@@ -88,12 +88,12 @@
         viewer.addModel(smiles, "smiles");
 
         // ============================================================
-        // STYLE — BONDS (LIGHT COLOR SO THEY'RE VISIBLE)
+        // STYLE — BONDS (WHITE SO THEY'RE VISIBLE)
         // ============================================================
         viewer.setStyle({}, {
             stick: {
-                color: '#8899bb',
-                radius: 0.08
+                color: '#ffffff',  // ← WHITE BONDS — VISIBLE
+                radius: 0.1
             },
             sphere: {
                 scale: 0.35
@@ -127,10 +127,10 @@
             }
         });
 
-        // Hydrogen — white
+        // Hydrogen — white/gray
         viewer.addStyle({ elem: 'H' }, {
             sphere: {
-                color: '#ffffff',
+                color: '#aaaaaa',
                 scale: 0.2
             }
         });
@@ -146,7 +146,7 @@
         }, {
             stick: {
                 color: '#ff6b6b',
-                radius: 0.2
+                radius: 0.25
             }
         });
 
@@ -180,7 +180,7 @@
         viewer.addLabel('H', {
             position: { x: 0.8, y: -2.5, z: 0.5 },
             fontSize: 12,
-            color: '#ffffff',
+            color: '#aaaaaa',
             font: 'Arial',
             backgroundColor: 'rgba(0,0,0,0.0)'
         });
