@@ -31,7 +31,19 @@
             display: block;
         }
 
-        /* Small label at the bottom — just for you */
+        .instructions {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #334466;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 10;
+        }
+
         .note {
             position: fixed;
             bottom: 20px;
@@ -47,27 +59,12 @@
             pointer-events: none;
             z-index: 10;
         }
-
-        /* Small instructions — visible to audience */
-        .instructions {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #334466;
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: 10;
-        }
     </style>
 </head>
 <body>
 
     <div id="viewer"></div>
 
-    <!-- Bottom info — clean and minimal -->
     <div class="instructions">🖱️ Drag to rotate · Scroll to zoom</div>
     <div class="note">🧬 Amide Structure · 17 Atoms</div>
 
@@ -82,7 +79,6 @@
 
         // ============================================================
         // MOLECULE DATA (SMILES format)
-        // This is a realistic amide — similar to paracetamol
         // ============================================================
         const smiles = "COC(=O)Nc1ccc(cc1)O";
 
@@ -92,26 +88,23 @@
         viewer.addModel(smiles, "smiles");
 
         // ============================================================
-        // STYLE — ALL ATOMS AND BONDS
+        // STYLE — BONDS (LIGHT COLOR SO THEY'RE VISIBLE)
         // ============================================================
         viewer.setStyle({}, {
             stick: {
                 color: '#8899bb',
-                radius: 0.1
+                radius: 0.08
             },
             sphere: {
-                scale: 0.35,
-                color: '#00ff88'
+                scale: 0.35
             }
         });
 
         // ============================================================
-        // COLOR ATOMS BY TYPE (C, O, N, H)
+        // COLOR ATOMS BY TYPE
         // ============================================================
         // Carbon — green
-        viewer.addStyle({
-            elem: 'C'
-        }, {
+        viewer.addStyle({ elem: 'C' }, {
             sphere: {
                 color: '#00ff88',
                 scale: 0.35
@@ -119,9 +112,7 @@
         });
 
         // Oxygen — red
-        viewer.addStyle({
-            elem: 'O'
-        }, {
+        viewer.addStyle({ elem: 'O' }, {
             sphere: {
                 color: '#ff6b6b',
                 scale: 0.4
@@ -129,19 +120,15 @@
         });
 
         // Nitrogen — blue
-        viewer.addStyle({
-            elem: 'N'
-        }, {
+        viewer.addStyle({ elem: 'N' }, {
             sphere: {
                 color: '#00ccff',
                 scale: 0.4
             }
         });
 
-        // Hydrogen — white/gray
-        viewer.addStyle({
-            elem: 'H'
-        }, {
+        // Hydrogen — white
+        viewer.addStyle({ elem: 'H' }, {
             sphere: {
                 color: '#ffffff',
                 scale: 0.2
@@ -149,10 +136,8 @@
         });
 
         // ============================================================
-        // HIGHLIGHT THE AMIDE BOND (C-N bond)
+        // HIGHLIGHT THE AMIDE BOND (C-N bond) — RED AND THICKER
         // ============================================================
-        // The amide bond is between the carbonyl carbon and the nitrogen
-        // We'll highlight it by making it thicker and red
         viewer.addStyle({
             bond: {
                 elem: ['C', 'N'],
@@ -166,15 +151,10 @@
         });
 
         // ============================================================
-        // ADD LABELS TO ATOMS (C, O, N, H)
+        // ADD LABELS TO ATOMS
         // ============================================================
-        // Labels for carbon atoms
         viewer.addLabel('C', {
-            position: {
-                x: 2.0,
-                y: 1.5,
-                z: 0.5
-            },
+            position: { x: 2.0, y: 1.5, z: 0.5 },
             fontSize: 14,
             color: '#00ff88',
             font: 'Arial',
@@ -182,11 +162,7 @@
         });
 
         viewer.addLabel('N', {
-            position: {
-                x: 1.2,
-                y: -1.5,
-                z: 0.5
-            },
+            position: { x: 1.2, y: -1.5, z: 0.5 },
             fontSize: 14,
             color: '#00ccff',
             font: 'Arial',
@@ -194,11 +170,7 @@
         });
 
         viewer.addLabel('O', {
-            position: {
-                x: 3.0,
-                y: 2.0,
-                z: 0.5
-            },
+            position: { x: 3.0, y: 2.0, z: 0.5 },
             fontSize: 14,
             color: '#ff6b6b',
             font: 'Arial',
@@ -206,11 +178,7 @@
         });
 
         viewer.addLabel('H', {
-            position: {
-                x: 0.8,
-                y: -2.5,
-                z: 0.5
-            },
+            position: { x: 0.8, y: -2.5, z: 0.5 },
             fontSize: 12,
             color: '#ffffff',
             font: 'Arial',
@@ -218,14 +186,10 @@
         });
 
         // ============================================================
-        // ADD A BOND LABEL FOR THE AMIDE BOND
+        // AMIDE BOND LABEL
         // ============================================================
         viewer.addLabel('Amide Bond', {
-            position: {
-                x: 1.8,
-                y: -0.5,
-                z: 0.8
-            },
+            position: { x: 1.8, y: -0.5, z: 0.8 },
             fontSize: 16,
             color: '#ff6b6b',
             font: 'Arial',
@@ -242,11 +206,6 @@
         viewer.zoomTo();
         viewer.rotate(90, 0);
         viewer.render();
-
-        // ============================================================
-        // AUTO-ROTATE (optional — uncomment to enable)
-        // ============================================================
-        // viewer.spin(true);
 
         // ============================================================
         // RESIZE HANDLER
